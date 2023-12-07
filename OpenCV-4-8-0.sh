@@ -45,6 +45,27 @@ sudo rm -rf opencv*
 git clone --depth=1 https://github.com/opencv/opencv.git
 git clone --depth=1 https://github.com/opencv/opencv_contrib.git
 
+# check python version -> LEO
+python3 --version
+# python3 location -> LEO
+which python3 3.9
+# merge VIRTUALENVWRAPPER_PYTHON=location/version -> LEO
+echo “export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3” >> ~/.bashrc
+# reload profile -> LEO
+source ~/.bashrc
+# install the virtual environment -> LEO
+sudo pip3 install virtualenv
+sudo pip3 install virtualenvwrapper
+# append these line at the end of the file .bashrc -> LEO
+echo “export WORKON_HOME=$HOME/.virtualenvs” >> ~/.bashrc
+echo “source /usr/local/bin/virtualenvwrapper.sh” >> ~/.bashrc
+source ~/.bashrc
+# create virtual environment -> LEO
+mkvirtualenv cv -p python3
+# install numpy e picamera -> LEO
+pip3 install numpy
+sudo pip3 install “picamera[array]”
+
 # set install dir
 cd ~/opencv
 mkdir build
@@ -86,6 +107,10 @@ sudo ldconfig
 make clean
 sudo apt-get update
 
+# link the OpenCV with the virtual environment -> LEO
+cd ~/.virtualenvs/cv/lib/python3.9/site-packages
+ln -s /usr/local/lib/python3.9/site-packages/cv2/python-3.9/cv2.cpython-37m-arm-linux-gnueabihf.so cv2.so
+cd ~
 echo "Congratulations!"
 echo "You've successfully installed OpenCV 4.8.0 on your Raspberry Pi 32-bit OS"
 }
